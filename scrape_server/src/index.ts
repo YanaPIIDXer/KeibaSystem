@@ -1,4 +1,4 @@
-import { fetchHorseData } from './business';
+import { fetchHorseData } from './business/horse_data';
 import app from './server';
 
 app.get('/horse/:id', async (req, res) => {
