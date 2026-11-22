@@ -29,7 +29,7 @@ class HorseResult {
     const minute = Number(timeStr.split(':')[0]);
     const second = Number(timeStr.split(':')[1]?.split('.')[0]);
     const milliSecond = Number(timeStr.split(':')[1]?.split('.')[1]);
-    return ((minute * 60) + second + milliSecond) * 0.1;
+    return ((minute * 60) + second + milliSecond) / 10;
   }
 
   get last3Falong(): number {
