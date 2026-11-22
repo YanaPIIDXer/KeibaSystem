@@ -13,10 +13,10 @@ export class RaceResultData {
   constructor (private $: CheerioAPI) {}
 
   get no(): number {
-    return Number(this.$('.racedata fc > dt').text().trim().replace('R', ''));
+    return Number(this.$('.racedata.fc > dt').text().trim().replace('R', ''));
   }
 
   get name(): string {
-    return this.$('.racedata fc > dd > h1').text();
+    return this.$('.racedata.fc > dd > h1').text().trim();
   }
 }

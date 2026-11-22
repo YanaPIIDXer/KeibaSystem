@@ -1,6 +1,7 @@
 import { fetchHtml } from '@/fetch';
 import type { CheerioAPI } from 'cheerio';
 import type { HorseDataResponse } from 'common/network/Scrape';
+import { RaceResultData } from '../race_result_data';
 
 export class HorseData {
   static async generate(id: string): Promise<HorseData> {
@@ -34,7 +35,8 @@ export class HorseData {
 
 export async function fetchHorseData (horseId: string): Promise<HorseDataResponse> {  
   const data = await HorseData.generate(horseId);
-  console.log(data.raceidList);
+  const races = await Promise.all(data.raceidList.map(id => RaceResultData.generate(id)));
+  console.log(races.map(x => x.name));
   return {
     data: {
       name: data.name,
