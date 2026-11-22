@@ -56,6 +56,9 @@ class HorseResult {
     const val = Number(this.$(this.$td[17]).text().trim());
     return Number.isNaN(val) ? -1 : val;
   }
+  get positions(): number[] {
+    return this.$(this.$td[14]).text().split('-').map(x => Number(x));
+  }
 }
 
 export class RaceResultData {

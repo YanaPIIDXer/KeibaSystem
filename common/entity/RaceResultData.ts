@@ -8,6 +8,7 @@ export interface HorseResultData {
   last3Falong: number;
   odds: number;
   popular: number;
+  positions: number[];
 }
 
 export interface RaceResultData {

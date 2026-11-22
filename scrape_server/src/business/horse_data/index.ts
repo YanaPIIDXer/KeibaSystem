@@ -53,6 +53,7 @@ export async function fetchHorseData (horseId: string): Promise<HorseDataRespons
             last3Falong: m.last3Falong,
             odds: m.odds,
             popular: m.popular,
+            positions: m.positions,
           }
         }),
       };
