@@ -10,3 +10,17 @@ export interface RaceData {
   no: number;
   course: RaceCourse;
 }
+
+export interface RaceDeatilHorse {
+  id: string;
+  no: number;
+  name: string;
+  jockey: string;
+  odds: number;
+}
+
+export interface RaceDetail {
+  name: string;
+  course: RaceCourse;
+  horses: RaceDeatilHorse[];  
+}
