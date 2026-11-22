@@ -11,13 +11,6 @@ const id = route.params.id as string;
 const isLoading = ref(false);
 const data = ref<HorseData | null>(null);
 
-const makeResults = () => {
-  if (!data.value) { return; }
-  return data.value.results.map(x => {
-    return x;
-  });
-}
-
 onMounted(async () => {
   try {
     isLoading.value = true;
@@ -38,7 +31,7 @@ onMounted(async () => {
       <h1>{{ data.name }}</h1>
       <table>
         <tbody>
-          <tr v-for="(race, index) in makeResults()" :key="index">
+          <tr v-for="(race, index) in data.results" :key="index">
             <td>{{ race.name }}</td>
             <td>{{ race.course.place }}</td>
             <td>{{ race.course.ground }}</td>
