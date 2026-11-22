@@ -20,7 +20,12 @@ class RaceData {
     return Number(this.$item.find('.Race_Num').text().trim().replace('R', '')) || -1;
   }
   get course(): RaceCourse {
-    const courseStr = this.$item.find('.RaceData > .RaceList_ItemLong').text().replace('m', '');
+    const courseStr = (() => {
+      const text = this.$(this.$item.find('.RaceList_ItemContent > .RaceData > span')[1]).text().trim();
+      if (text.endsWith('m')) { return text; }
+      // WIN5のマークが絡んでズレている可能性がある
+      return this.$(this.$item.find('.RaceList_ItemContent > .RaceData > span')[2]).text().trim();
+    })().replace('m', '');
     const ground = courseStr[0] ?? '';
     const distance = Number(courseStr.substring(1));
     return {
