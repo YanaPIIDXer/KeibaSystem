@@ -3,11 +3,14 @@ import type { Cheerio, CheerioAPI } from 'cheerio';
 import type { Element } from 'domhandler';
 
 class HorseResult {
+  private $td;
+  
   constructor (private $: CheerioAPI, private $elem: Cheerio<Element>) {
+    this.$td = this.$elem.find('td');
   }
 
   get id(): string {
-    const $a = this.$(this.$elem.find('td')[3]).find('a');
+    const $a = this.$(this.$td[3]).find('a');
     let href = $a.attr('href');
     if (!href) { return ''; }
     if (href.endsWith('/')) {
