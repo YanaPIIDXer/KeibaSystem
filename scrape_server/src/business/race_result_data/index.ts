@@ -24,8 +24,12 @@ class HorseResult {
     return this.$(this.$td[6]).text().trim();
   }
 
-  get time(): string {
-    return this.$(this.$td[7]).text().trim();
+  get time(): number {
+    const timeStr = this.$(this.$td[7]).text().trim();
+    const minute = Number(timeStr.split(':')[0]);
+    const second = Number(timeStr.split(':')[1]?.split('.')[0]);
+    const milliSecond = Number(timeStr.split(':')[1]?.split('.')[1]);
+    return (minute * 600) + (second * 10) + milliSecond;
   }
 
   get last3Falong(): number {
