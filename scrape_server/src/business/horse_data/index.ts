@@ -21,6 +21,8 @@ export class HorseData {
 export async function fetchHorseData (horseId: string): Promise<HorseDataResponse> {  
   const data = await HorseData.generate(horseId);
   return {
-    name: data.name,
+    data: {
+      name: data.name,
+    }
   };
 }

@@ -1,3 +1,5 @@
+import type { HorseData } from '../entity/HorseData';
+
 export interface HorseDataResponse {
-  name: string;
+  data: HorseData;
 }
