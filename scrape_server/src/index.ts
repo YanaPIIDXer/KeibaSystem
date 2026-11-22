@@ -10,7 +10,6 @@ app.get('/race/list/:date', async (req, res) => {
 
 app.get('/race/:id', async (req, res) => {
   const response = await fetchRaceDetail(req.params.id);
-  console.log(response);
   res.json(response);
 });
 

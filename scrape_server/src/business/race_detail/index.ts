@@ -85,7 +85,7 @@ export async function fetchRaceDetail(id: string): Promise<RaceDetailResponse> {
     detail: {
       name: data.name,
       course: data.course,
-      horses: data.raceMember.map(x => {
+      horses: data.raceMember.filter(x => x.no).map(x => {
         return {
           id: x.id,
           no: x.no,
