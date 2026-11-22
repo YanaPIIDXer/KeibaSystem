@@ -9,8 +9,8 @@ const send = async () => {
   if (!horseId.value) { return; }
 
   try {
-    const response = await axios.get('http://localhost:3000/horse/' + horseId.value);
-    console.log(response);
+    const response = await axios.get<HorseDataResponse>('http://localhost:3000/horse/' + horseId.value);
+    alert(response.data.name);
   } catch (error) {
     console.error(error);
     alert('エラー');
