@@ -1,4 +1,4 @@
-import { fetchHtml } from '@/fetch';
+import { fetchHtml } from '../fetch';
 import type { CheerioAPI } from 'cheerio';
 import type { HorseDataResponse } from 'common/network/Scrape';
 import { RaceResultData } from '../race_result_data';

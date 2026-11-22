@@ -1,4 +1,4 @@
-import { fetchHtml } from '@/fetch';
+import { fetchHtml } from '../fetch';
 import type { Cheerio, CheerioAPI } from 'cheerio';
 import type { Element } from 'domhandler';
 
