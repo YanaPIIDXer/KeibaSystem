@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { HorseDataResponse } from 'common/network/Scrape';
+import type { HorseDataResponse, RaceListResponse } from 'common/network/Scrape';
 import axios from 'axios';
 import LoadingSpinner from './presentations/components/LoadingSpinner.vue';
 
-const horseId = ref('');
+const value = ref('');
 const isLoading = ref(false);
 
 const send = async () => {
-  if (!horseId.value || isLoading.value) { return; }
+  if (!value.value || isLoading.value) { return; }
 
   isLoading.value = true;
   try {
-    const response = await axios.get<HorseDataResponse>('http://localhost:3000/horse/' + horseId.value);
+    const response = await axios.get<RaceListResponse>('http://localhost:3000/race/list/' + value.value);
     console.log(response.data);
   } catch (error) {
     console.error(error);
@@ -26,8 +26,8 @@ const send = async () => {
 <template>
   <div class="app">
     <form :inert="isLoading" @submit.prevent="send">
-      <input type="text" v-model="horseId" placeholder="馬ID" />
-      <input type="submit" value="送信" :disabled="!horseId" />
+      <input type="text" v-model="value" placeholder="value" />
+      <input type="submit" value="送信" :disabled="!value" />
     </form>
   </div>
   <LoadingSpinner :loading="isLoading" />
