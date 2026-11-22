@@ -13,6 +13,11 @@ const router = createRouter({
       name: 'race',
       component: () => import('./presentations/views/RaceView.vue'),
     },
+    {
+      path: '/horse/:id',
+      name: 'horse',
+      component: () => import('./presentations/views/HorseView.vue'),
+    },
   ],
 });
 

@@ -1,3 +1,5 @@
+import type { RaceCourse } from "./RaceData";
+
 export interface HorseResultData {
   id: string;
   no: number;
@@ -12,5 +14,7 @@ export interface HorseResultData {
 }
 
 export interface RaceResultData {
+  name: string;
+  course: RaceCourse;
   horses: HorseResultData[];
 }

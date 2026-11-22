@@ -1,5 +1,6 @@
 import { fetchHtml } from '../fetch';
 import type { Cheerio, CheerioAPI } from 'cheerio';
+import type { RaceCourse } from 'common/entity/RaceData';
 import type { Element } from 'domhandler';
 
 class HorseResult {
@@ -78,6 +79,20 @@ export class RaceResultData {
 
   get name(): string {
     return this.$('.racedata.fc > dd > h1').text().trim();
+  }
+
+  get course(): RaceCourse {
+    const courseStr = (() => {
+      return this.$(this.$('.data_intro diary_snap_cut > p > span').toArray()[0]).text().split(' ')[0]?.trim() ?? '';
+    })().replace('m', '');1
+    const ground = courseStr[0] ?? '';
+    const distance = Number(courseStr.substring(2));
+    const place = (this.$(this.$('.data_intro > p')[0]).text().split(' ')[1]?.substring(2, 4) ?? '').trim();
+    return {
+      place,
+      ground,
+      distance,
+    }
   }
 
   isMember(id: string): boolean {

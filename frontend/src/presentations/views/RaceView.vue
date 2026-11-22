@@ -96,7 +96,7 @@ onMounted(async () => {
             <tbody>
               <tr v-for="horse in sortedHorses" :key="horse.id || horse.no">
                 <td>{{ horse.no > 0 ? horse.no : '—' }}</td>
-                <th scope="row">{{ horse.name }}</th>
+                <th scope="row"><RouterLink :to="`/horse/${horse.id}`">{{ horse.name }}</RouterLink></th>
                 <td>{{ horse.jockey || '—' }}</td>
                 <td class="odds">{{ horse.odds > 0 ? horse.odds.toFixed(1) : '—' }}</td>
               </tr>
