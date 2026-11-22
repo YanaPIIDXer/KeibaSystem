@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { type HorseDataResponse } from 'common/network/Scrape';
 import { type HorseData } from 'common/entity/HorseData';
+import { convertGroundName } from '@/util/ground';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 
 const route = useRoute();
@@ -34,7 +35,7 @@ onMounted(async () => {
           <tr v-for="(race, index) in data.results" :key="index">
             <td>{{ race.name }}</td>
             <td>{{ race.course.place }}</td>
-            <td>{{ race.course.ground }}</td>
+            <td>{{ convertGroundName(race.course.ground) }}</td>
             <td>{{ race.course.distance }}</td>
           </tr>
         </tbody>

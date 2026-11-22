@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRaceList } from '../compositions/RaceLIst.ts';
+import { useRaceList } from '../compositions/RaceLIst';
+import { convertGroundName } from '@/util/ground';
 
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 
@@ -53,7 +54,7 @@ const onSelectedDate = async () => {
             <tr v-for="race in races" :key="race.id">
               <th scope="row">{{ race.no }}</th>
               <td><RouterLink :to="`/race/${race.id}`">{{ race.name }}</RouterLink></td>
-              <td>{{ race.course.ground }}</td>
+              <td>{{ convertGroundName(race.course.ground) }}</td>
               <td>{{ race.course.distance }} m</td>
             </tr>
           </tbody>

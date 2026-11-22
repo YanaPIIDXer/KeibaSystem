@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import type { RaceDetailResponse } from 'common/network/Scrape';
 import type { RaceDetail } from 'common/entity/RaceData';
+import { convertGroundName } from '@/util/ground';
 
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 
@@ -65,7 +66,7 @@ onMounted(async () => {
         </div>
         <div>
           <dt>馬場</dt>
-          <dd>{{ raceData.course.ground }}</dd>
+          <dd>{{ convertGroundName(raceData.course.ground) }}</dd>
         </div>
         <div>
           <dt>距離</dt>
