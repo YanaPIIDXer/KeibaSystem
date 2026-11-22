@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import axios from 'axios';
-import type { RaceListResponse } from 'common/network/Scrape';
+import { useRaceList } from '../compositions/RaceLIst.ts';
+
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 
 const isLoading = ref(false);
+const raceList = useRaceList();
 
 const date = ref('');
 const onSelectedDate = async () => {
   if (!date.value) { return; }
-  const url = `http://localhost:3000/race/list/${date.value.replaceAll('-', '')}`;
   try {
     isLoading.value = true;
-    const response = await axios.get<RaceListResponse>(url);
-    console.log(response.data);
+    await raceList.fetch(date.value);
   } catch (e) {
     console.error(e);
     alert('エラー');
