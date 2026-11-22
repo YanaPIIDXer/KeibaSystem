@@ -16,10 +16,25 @@ export class HorseData {
   get name(): string {
     return this.$('.horse_title > h1').text();
   }
+
+  get raceidList(): string[] {
+    return this.$('.db_h_race_results > tbody > tr').toArray().map(r => {
+      const $a = this.$(this.$(r).find('td')[4]).find('a');
+      let href = $a.attr('href');
+      if (!href) { return ''; }
+
+      if (href.endsWith('/')) {
+        href = href.substring(0, href.length - 1);
+      }
+      const splited = href.split('/');
+      return splited[splited.length - 1] ?? '';
+    });
+  }
 }
 
 export async function fetchHorseData (horseId: string): Promise<HorseDataResponse> {  
   const data = await HorseData.generate(horseId);
+  console.log(data.raceidList);
   return {
     data: {
       name: data.name,
