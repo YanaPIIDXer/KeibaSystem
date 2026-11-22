@@ -1,16 +1,12 @@
 import server from './server';
 import { fetchHtml } from './fetch';
 import { Waiter } from './waiter';
-
-interface RequestData {
-  url: string;
-  waitForSelector?: string;
-}
+import type { HtmlRequestData } from 'common/network/Html';
 
 const waiter = new Waiter();
 
 server.post('/', async (req, res) => {
-  const request: RequestData = req.body;
+  const request: HtmlRequestData = req.body;
   const url = typeof request.url === 'string' ? URL.parse(request.url) : null;
   if (!url || (url.protocol !== 'http:' && url.protocol !== 'https:')) {
     res.status(400).json({ error: 'url must be a valid HTTP or HTTPS URL' });
