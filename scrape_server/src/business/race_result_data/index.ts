@@ -2,6 +2,22 @@ import { fetchHtml } from '@/fetch';
 import type { Cheerio, CheerioAPI } from 'cheerio';
 import type { Element } from 'domhandler';
 
+class HorseResult {
+  constructor (private $: CheerioAPI, private $elem: Cheerio<Element>) {
+  }
+
+  get id(): string {
+    const $a = this.$(this.$elem.find('td')[3]).find('a');
+    let href = $a.attr('href');
+    if (!href) { return ''; }
+    if (href.endsWith('/')) {
+      href = href.substring(0, href.length - 1);
+    }
+    const splited = href.split('/');
+    return splited[splited.length - 1] ?? '';
+  }
+}
+
 export class RaceResultData {
   static async generate(id: string): Promise<RaceResultData> {
     const $ = await fetchHtml({
@@ -24,20 +40,12 @@ export class RaceResultData {
   isMember(id: string): boolean {
     const mems = this.raceMember;
     for (const m of mems) {
-      const $a = this.$(m.find('td')[3]).find('a');
-      let href = $a.attr('href');
-      if (!href) { continue; }
-      if (href.endsWith('/')) {
-        href = href.substring(0, href.length - 1);
-      }
-      const splited = href.split('/');
-      const cmpId = splited[splited.length - 1];
-      if (id === cmpId) { return true; }
+      if (m.id === id) { return true; }
     }
     return false;
   }
 
-  private get raceMember (): Cheerio<Element>[] {
-    return this.$('.race_table_01 > tbody > tr').toArray().splice(1).map(x => this.$(x));
+  private get raceMember (): HorseResult[] {
+    return this.$('.race_table_01 > tbody > tr').toArray().splice(1).map(x => new HorseResult(this.$, this.$(x)));
   }
 }
