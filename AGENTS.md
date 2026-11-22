@@ -6,3 +6,4 @@
 # フロントエンドHTML/CSSについて
 - HTMLのid/classはcamelCaseとする
 - Componentのルート要素に、Component名のclassを付与する（camelCase）
+- スタイリングはSassを使用する
