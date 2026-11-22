@@ -43,6 +43,23 @@ export async function fetchHorseData (horseId: string): Promise<HorseDataRespons
   return {
     data: {
       name: data.name,
-    }
+    },
+    results: races.map(x => {
+      return {
+        horses: x.raceMember.map(m => {
+          return {
+            id: m.id,
+            no: m.no,
+            rank: m.rank,
+            name: m.name,
+            jockey: m.jockey,
+            time: m.time,
+            last3Falong: m.last3Falong,
+            odds: m.odds,
+            popular: m.popular,
+          }
+        }),
+      };
+    }),
   };
 }

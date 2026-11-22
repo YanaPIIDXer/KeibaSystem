@@ -20,6 +20,18 @@ class HorseResult {
     return splited[splited.length - 1] ?? '';
   }
 
+  get no(): number {
+    return Number(this.$(this.$td[2]).text().trim());
+  }
+
+  get name(): string {
+    return this.$(this.$td[3]).text().trim();
+  }
+  
+  get rank(): number {
+    return Number(this.$(this.$td[0]).text().trim());
+  }
+
   get jockey(): string {
     return this.$(this.$td[6]).text().trim();
   }

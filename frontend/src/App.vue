@@ -10,7 +10,7 @@ const send = async () => {
 
   try {
     const response = await axios.get<HorseDataResponse>('http://localhost:3000/horse/' + horseId.value);
-    alert(response.data.data.name);
+    console.log(response.data);
   } catch (error) {
     console.error(error);
     alert('エラー');
