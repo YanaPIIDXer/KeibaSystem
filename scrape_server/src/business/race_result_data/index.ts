@@ -1,13 +1,13 @@
 import { fetchHtml } from '@/fetch';
 import type { CheerioAPI } from 'cheerio';
 
-export class RaceData {
-  static async generate(id: string): Promise<RaceData> {
+export class RaceResultData {
+  static async generate(id: string): Promise<RaceResultData> {
     const $ = await fetchHtml({
       url: `https://db.netkeiba.com/race/${id}`,
       waitForSelector: '.race_table_01',
     });
-    return new RaceData($);
+    return new RaceResultData($);
   }
   
   constructor (private $: CheerioAPI) {}
