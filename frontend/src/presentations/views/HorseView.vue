@@ -14,10 +14,7 @@ const data = ref<HorseData | null>(null);
 const makeResults = () => {
   if (!data.value) { return; }
   return data.value.results.map(x => {
-    console.log(x);
-    return {
-      name: x.name,
-    }
+    return x;
   });
 }
 
@@ -43,6 +40,9 @@ onMounted(async () => {
         <tbody>
           <tr v-for="(race, index) in makeResults()" :key="index">
             <td>{{ race.name }}</td>
+            <td>{{ race.course.place }}</td>
+            <td>{{ race.course.ground }}</td>
+            <td>{{ race.course.distance }}</td>
           </tr>
         </tbody>
       </table>

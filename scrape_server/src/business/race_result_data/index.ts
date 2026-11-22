@@ -83,10 +83,10 @@ export class RaceResultData {
 
   get course(): RaceCourse {
     const courseStr = (() => {
-      return this.$(this.$('.data_intro diary_snap_cut > p > span').toArray()[0]).text().split(' ')[0]?.trim() ?? '';
-    })().replace('m', '');1
+      return (this.$(this.$('.data_intro diary_snap_cut > p > span').toArray()[0]).text().trim().split(' ')[0]?.trim() ?? '');
+    })().replace('m', '');
     const ground = courseStr[0] ?? '';
-    const distance = Number(courseStr.substring(2));
+    const distance = Number(courseStr.substring(2, 6));
     const place = (this.$(this.$('.data_intro > p')[0]).text().split(' ')[1]?.substring(2, 4) ?? '').trim();
     return {
       place,
