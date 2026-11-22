@@ -52,7 +52,7 @@ const onSelectedDate = async () => {
           <tbody>
             <tr v-for="race in races" :key="race.id">
               <th scope="row">{{ race.no }}</th>
-              <td>{{ race.name }}</td>
+              <td><RouterLink :to="`/race/${race.id}`">{{ race.name }}</RouterLink></td>
               <td>{{ race.course.ground }}</td>
               <td>{{ race.course.distance }} m</td>
             </tr>
