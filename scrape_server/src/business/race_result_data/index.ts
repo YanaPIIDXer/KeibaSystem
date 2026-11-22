@@ -48,7 +48,7 @@ export class RaceResultData {
     return false;
   }
 
-  private get raceMember (): HorseResult[] {
+  get raceMember (): HorseResult[] {
     return this.$('.race_table_01 > tbody > tr').toArray().splice(1).map(x => new HorseResult(this.$, this.$(x)));
   }
 }
