@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import type { RaceDetailResponse } from 'common/network/Scrape';
@@ -7,10 +7,38 @@ import type { RaceDetail } from 'common/entity/RaceData';
 
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 
+type Horse = RaceDetail['horses'][number];
+
+const sortOptions = {
+  no: {
+    label: '馬番',
+    getValue: (horse: Horse) => horse.no,
+  },
+  odds: {
+    label: '単勝オッズ',
+    getValue: (horse: Horse) => horse.odds,
+  },
+};
+
+function compareAscending(first: number, second: number): number {
+  const firstValue = Number.isFinite(first) && first > 0 ? first : Infinity;
+  const secondValue = Number.isFinite(second) && second > 0 ? second : Infinity;
+  if (firstValue === secondValue) { return 0; }
+  return firstValue < secondValue ? -1 : 1;
+}
+
 const route = useRoute();
 const id = route.params.id as string;
 const isLoading = ref(false);
 const raceData = ref<RaceDetail | null>(null);
+const sortKey = ref<keyof typeof sortOptions>('no');
+const sortedHorses = computed(() => {
+  const { getValue } = sortOptions[sortKey.value];
+  return [...(raceData.value?.horses ?? [])].sort((first, second) =>
+    compareAscending(getValue(first), getValue(second)) || compareAscending(first.no, second.no),
+  );
+});
+
 onMounted(async () => {
   try {
     isLoading.value = true;
@@ -46,26 +74,36 @@ onMounted(async () => {
       </dl>
       <h2 id="raceEntries">出馬表</h2>
       <p v-if="!raceData.horses.length">出走馬情報はありません。</p>
-      <div v-else class="tableWrap">
-        <table class="entryTable" aria-labelledby="raceEntries">
-          <thead>
-            <tr>
-              <th scope="col">馬番</th>
-              <th scope="col">馬名</th>
-              <th scope="col">騎手</th>
-              <th scope="col" class="odds">単勝オッズ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="horse in raceData.horses" :key="horse.id || horse.no">
-              <td>{{ horse.no > 0 ? horse.no : '—' }}</td>
-              <th scope="row">{{ horse.name }}</th>
-              <td>{{ horse.jockey || '—' }}</td>
-              <td class="odds">{{ horse.odds > 0 ? horse.odds.toFixed(1) : '—' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <template v-else>
+        <div class="entrySort">
+          <label for="entrySortKey">並び順</label>
+          <select id="entrySortKey" v-model="sortKey">
+            <option v-for="(option, key) in sortOptions" :key="key" :value="key">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+        <div class="tableWrap">
+          <table class="entryTable" aria-labelledby="raceEntries">
+            <thead>
+              <tr>
+                <th scope="col">馬番</th>
+                <th scope="col">馬名</th>
+                <th scope="col">騎手</th>
+                <th scope="col" class="odds">単勝オッズ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="horse in sortedHorses" :key="horse.id || horse.no">
+                <td>{{ horse.no > 0 ? horse.no : '—' }}</td>
+                <th scope="row">{{ horse.name }}</th>
+                <td>{{ horse.jockey || '—' }}</td>
+                <td class="odds">{{ horse.odds > 0 ? horse.odds.toFixed(1) : '—' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </template>
     </template>
   </div>
 </template>
@@ -87,6 +125,12 @@ onMounted(async () => {
 
   dd
     margin-inline-start: 0
+
+.entrySort
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  margin-bottom: 0.75rem
 
 .tableWrap
   overflow-x: auto
