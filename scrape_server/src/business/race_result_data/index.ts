@@ -23,6 +23,15 @@ class HorseResult {
   get jockey(): string {
     return this.$(this.$td[6]).text().trim();
   }
+
+  get odds(): number {
+    const val = Number(this.$(this.$td[16]).text().trim());
+    return Number.isNaN(val) ? -1 : val;
+  }
+  get popular(): number {
+    const val = Number(this.$(this.$td[17]).text().trim());
+    return Number.isNaN(val) ? -1 : val;
+  }
 }
 
 export class RaceResultData {

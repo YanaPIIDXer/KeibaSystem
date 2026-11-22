@@ -36,7 +36,8 @@ export class HorseData {
 export async function fetchHorseData (horseId: string): Promise<HorseDataResponse> {  
   const data = await HorseData.generate(horseId);
   const races = await Promise.all(data.raceidList.map(id => RaceResultData.generate(id)));
-  console.log(races.map(x => x.getMember(horseId)?.jockey));
+  console.log(races.map(x => x.getMember(horseId)?.odds));
+  console.log(races.map(x => x.getMember(horseId)?.popular));
   return {
     data: {
       name: data.name,
