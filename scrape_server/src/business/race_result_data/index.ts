@@ -24,6 +24,10 @@ class HorseResult {
     return this.$(this.$td[6]).text().trim();
   }
 
+  get last3Falong(): number {
+    const val = Number(this.$(this.$td[15]).text().trim());
+    return Number.isNaN(val) ? -1 : val;
+  }
   get odds(): number {
     const val = Number(this.$(this.$td[16]).text().trim());
     return Number.isNaN(val) ? -1 : val;
