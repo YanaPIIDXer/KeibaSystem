@@ -19,6 +19,10 @@ class HorseResult {
     const splited = href.split('/');
     return splited[splited.length - 1] ?? '';
   }
+
+  get jockey(): string {
+    return this.$(this.$td[6]).text().trim();
+  }
 }
 
 export class RaceResultData {
@@ -46,6 +50,14 @@ export class RaceResultData {
       if (m.id === id) { return true; }
     }
     return false;
+  }
+
+  getMember(id: string): HorseResult | null {
+    const mems = this.raceMember;
+    for (const m of mems) {
+      if (m.id === id) { return m; }
+    }
+    return null;
   }
 
   get raceMember (): HorseResult[] {
