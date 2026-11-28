@@ -35,9 +35,14 @@ class Instance:
     '''
     if self.__cache_df is None:
       self.load_data()
-    return self.__cache_df[self.__cache_df['RaceId'] == id].copy().sort_values('Result', ascending=True)
+
+    df = self.__cache_df[self.__cache_df['RaceId'] == id].copy().sort_values('Result', ascending=True)
+    return df
 
   def find_horse_result(self, name: str, date: datetime = '') -> pd.DataFrame:
+    '''
+    特定の馬の馬柱を取得
+    '''
     if self.__cache_df is None:
       self.load_data()
     df = self.__cache_df[self.__cache_df['Name'] == name].copy()
