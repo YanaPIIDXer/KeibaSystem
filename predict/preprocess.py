@@ -4,9 +4,22 @@ from pathlib import Path
 
 root = Path(__file__).parent
 
-def load_data() -> pd.DataFrame:
+class Instance:
   '''
-  データ読み込みと前処理
+  色々とやってくれるインスタンス
   '''
-  df = pd.read_csv(root / 'datas' / 'data.csv')
-  return df
+  
+  def __init__(self):
+    '''
+    コンストラクタ
+    '''
+    pass
+  
+  def load_data(self) -> pd.DataFrame:
+    '''
+    データ読み込みと前処理
+    '''
+    df = pd.read_csv(root / 'datas' / 'data.csv')
+    return df
+
+  
