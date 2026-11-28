@@ -43,4 +43,4 @@ class Instance:
     df = self.__cache_df[self.__cache_df['Name'] == name]
     if date:
       df = df[df['Date'] < date]
-    return df
+    return df.sort_values('Date', ascending=True)
