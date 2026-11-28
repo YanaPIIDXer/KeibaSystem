@@ -35,12 +35,12 @@ class Instance:
     '''
     if self.__cache_df is None:
       self.load_data()
-    return self.__cache_df[self.__cache_df['RaceId'] == id].sort_values('Result', ascending=True)
+    return self.__cache_df[self.__cache_df['RaceId'] == id].copy().sort_values('Result', ascending=True)
 
   def find_horse_result(self, name: str, date: datetime = '') -> pd.DataFrame:
     if self.__cache_df is None:
       self.load_data()
-    df = self.__cache_df[self.__cache_df['Name'] == name]
+    df = self.__cache_df[self.__cache_df['Name'] == name].copy()
     if date:
       df = df[df['Date'] < date]
     return df.sort_values('Date', ascending=True)
