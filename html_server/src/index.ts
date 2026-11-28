@@ -1,9 +1,26 @@
 import server from './server';
 import { fetchHtml } from './fetch';
 import { Waiter } from './waiter';
+import { getCachePath, readCachedHtml, writeCachedHtml } from './cache';
 import type { HtmlRequestData } from 'common/network/Html';
 
 const waiter = new Waiter();
+const pendingFetches = new Map<string, Promise<string>>();
+
+async function fetchAndCacheHtml(url: URL, cachePath: string, waitForSelector?: string, useCache?: boolean): Promise<string> {
+  if (useCache) {
+    const cachedHtml = await readCachedHtml(cachePath);
+    if (cachedHtml !== undefined) {
+      return cachedHtml;
+    }
+  }
+
+  await waiter.wait();
+  const html = await fetchHtml(url.href, waitForSelector);
+  await waiter.start();
+  await writeCachedHtml(cachePath, html);
+  return html;
+}
 
 server.post('/', async (req, res) => {
   const request: HtmlRequestData = req.body;
@@ -14,9 +31,15 @@ server.post('/', async (req, res) => {
   }
 
   try {
-    await waiter.wait();
-    const html = await fetchHtml(url.href, request.waitForSelector);
-    await waiter.start();
+    const cachePath = getCachePath(url, request.waitForSelector);
+    let pendingFetch = pendingFetches.get(cachePath);
+    if (!pendingFetch) {
+      pendingFetch = fetchAndCacheHtml(url, cachePath, request.waitForSelector, request.useCache)
+        .finally(() => pendingFetches.delete(cachePath));
+      pendingFetches.set(cachePath, pendingFetch);
+    }
+
+    const html = await pendingFetch;
     res.json({ html });
   } catch (error) {
     console.error(error);
